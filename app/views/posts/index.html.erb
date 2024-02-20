@@ -2,12 +2,13 @@
 <div class="posts-container">
   <% @posts.each do |t| %>
     <div class="post">
-      <%= t.body %>
-      <%= t.user.email %>
-      <%= t.updated_at %>
-      <%= link_to "詳細へ", post_path(t.id)%>
-      <%= link_to "編集する", edit_post_path(t.id) %>
-      <%= button_to "削除する", post_path(t.id), method: :delete %>
+        <%= image_tag t.image_url, size: "250x200" if t.image? %>
+        <%= t.body %>
+        <%= t.user.email %>
+        <%= t.updated_at %>
+        <%= link_to "詳細へ", post_path(t.id)%>
+        <%= link_to "編集する", edit_post_path(t.id) %>
+        <%= button_to "削除する", post_path(t.id), method: :delete %>
     </div>
   <% end %>
 </div>
