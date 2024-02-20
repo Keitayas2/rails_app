@@ -1,0 +1,10 @@
+<%= link_to "新規投稿ページへ", new_post_path %>
+<div class="posts-container">
+  <% @posts.each do |t| %>
+    <div class="post">
+      <%= t.body %>
+      <%= t.created_at %>
+      <%= link_to "詳細へ", post_path(t.id)%>
+    </div>
+  <% end %>
+</div>
