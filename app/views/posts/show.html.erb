@@ -1,7 +1,7 @@
 <div class="post">
     <p>
         <strong>投稿者:</strong>
-        <%= @post.id %>
+        <%= @post.user.email %>
     </p>
     <p>
         <strong>投稿内容:</strong>
@@ -10,6 +10,14 @@
     <p>
         <strong>投稿日時:</strong>
         <%= @post.created_at %>
+    </p>
+    <p>
+        <strong>更新日時:</strong>
+        <%= @post.updated_at %>
+    </p>
+    <p>
+        <%= link_to "編集する", edit_post_path(@post.id) %>
+        <%= button_to "削除する", post_path(@post.id), method: :delete %>
     </p>
 </div>
 
