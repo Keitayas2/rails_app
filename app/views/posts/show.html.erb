@@ -34,6 +34,26 @@
             <%= button_to "削除する", post_path(@post.id), method: :delete %>
         </p>
     <% end %>
+    <div class="comment-wrapper">
+        <p>コメント一覧</p>
+        <% @comments.each do |c| %>
+            <div>
+                <%= c.user.email unless c.user.blank? %>
+                <br>
+                <%= c.content %>
+            </div>
+            <br>
+        <% end %>
+
+    <% if user_signed_in? %>
+        <%= form_with(model: [@post, @comment], local: true) do |f| %>
+            <%= f.text_area :content %>
+            <%= button_tag type: "submit" do %>
+            <i class="far fa-comments"></i> コメントする
+            <% end %>
+        <% end %>
+    <% end %>
+    </div>
 </div>
 
 <%= link_to "一覧に戻る", posts_path %>

@@ -6,9 +6,20 @@
         <%= t.body %>
         <%= t.user.email %>
         <%= t.updated_at %>
-        <%= link_to "詳細へ", post_path(t.id)%>
+        <% if user_signed_in? %>
+            <% if current_user.already_liked?(t) %>
+                <%= button_to post_like_path(id: t.id, post_id: t.id), method: :delete do %>
+                    <i class="fas fa-heart"></i><%= t.likes.count %>
+                <% end %>
+            <% else %>
+                <%= button_to post_likes_path(id: t.id, post_id: t.id), method: :post do %>
+                    <i class="far fa-heart"></i><%= t.likes.count %>
+                <% end %>
+            <% end %>
         <%= link_to "編集する", edit_post_path(t.id) %>
         <%= button_to "削除する", post_path(t.id), method: :delete %>
+        <% end %>
+        <%= link_to "詳細へ", post_path(t.id)%>
     </div>
   <% end %>
 </div>
