@@ -23,12 +23,13 @@
         <%= link_to "詳細へ", post_path(t.id)%>
     </div>
   <% end %>
+
   <% @posts.each do |t| %>
-  <h3>  <%= t.user.email %>の投稿</h3>
     <div class="post">
         <%= image_tag t.image_url, size: "250x200" if t.image? %>
         <%= t.body %>
         <%= t.user.email %>
+        <%= link_to t.user.name, user_path(t.user.id) %>
         <%= t.updated_at %>
         <% if user_signed_in? %>
             <% if current_user.already_liked?(t) %>
