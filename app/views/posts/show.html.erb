@@ -30,8 +30,10 @@
             <%= @post.likes.count %>
         </p>
         <p>
-            <%= link_to "編集する", edit_post_path(@post.id) %>
-            <%= button_to "削除する", post_path(@post.id), method: :delete %>
+            
+                <%= link_to "編集する", edit_post_path(@post.id) %>
+                <%= button_to "削除する", post_path(@post.id), method: :delete %>
+            
         </p>
     <% end %>
     <div class="comment-wrapper">

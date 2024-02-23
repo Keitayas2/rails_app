@@ -17,13 +17,11 @@
                     <i class="far fa-heart"></i><%= t.likes.count %>
                 <% end %>
             <% end %>
-        <%= link_to "編集する", edit_post_path(t.id) %>
-        <%= button_to "削除する", post_path(t.id), method: :delete %>
         <% end %>
         <%= link_to "詳細へ", post_path(t.id)%>
     </div>
   <% end %>
-
+  <h3>自分の投稿</h3>
   <% @posts.each do |t| %>
     <div class="post">
         <%= image_tag t.image_url, size: "250x200" if t.image? %>
@@ -41,8 +39,10 @@
                     <i class="far fa-heart"></i><%= t.likes.count %>
                 <% end %>
             <% end %>
-        <%= link_to "編集する", edit_post_path(t.id) %>
-        <%= button_to "削除する", post_path(t.id), method: :delete %>
+          <% if user_signed_in? && current_user.id == t.user_id %>
+            <%= link_to "編集する", edit_post_path(t.id) %>
+            <%= button_to "削除する", post_path(t.id), method: :delete %>
+          <% end %>
         <% end %>
         <%= link_to "詳細へ", post_path(t.id)%>
     </div>
