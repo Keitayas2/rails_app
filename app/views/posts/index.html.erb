@@ -1,4 +1,9 @@
 <%= link_to "新規投稿ページへ", new_post_path %>
+<h3>投稿を検索</h3>
+<%= form_tag({controller:"posts",action:"index"}, method: :get) do %>
+    <%= text_field_tag :search %>
+    <%= submit_tag '検索する'  %>
+<% end %>
 <div class="posts-container">
   <h3>人気の投稿</h3>
   <% @rank_posts.each do |t| %>
@@ -26,7 +31,6 @@
     <div class="post">
         <%= image_tag t.image_url, size: "250x200" if t.image? %>
         <%= t.body %>
-        <%= t.user.email %>
         <%= link_to t.user.name, user_path(t.user.id) %>
         <%= t.updated_at %>
         <% if user_signed_in? %>
