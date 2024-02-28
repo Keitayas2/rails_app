@@ -4,11 +4,11 @@ class PostsController < ApplicationController
   def index
     @posts = Post.all
     search = params[:search]
-    @posts = @posts.joins(:user).where("body LIKE ?", "%#{search}%") if search.present?
+    @posts = @posts.joins(:user).where("body LIKE ? OR name LIKE ?", "%#{search}%", "%#{search}%") if search.present?
     @rank_posts = Post.all
     search = params[:search]
-    @rank_posts = @posts.joins(:user).where("body LIKE ?", "%#{search}%") if search.present?
-    @rank_posts = @rank_posts.all.sort {|a,b| b.liked_users.count <=> a.liked_users.count}.first(3)
+    @rank_posts = @posts.joins(:user).where("body LIKE ? OR name LIKE ?", "%#{search}%", "%#{search}%") if search.present?
+    @rank_posts = @rank_posts.all.sort {|a,b| b.liked_users.count <=> a.liked_users.count}
   end
 
   def new

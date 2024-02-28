@@ -1,4 +1,24 @@
 <h1>users#show</h1>
+<% if user_signed_in? %>
+  <% unless current_user == @user %>
+    <% if current_user.following?(@user) %>
+      <%= form_for(current_user.relationships.find_by(follow_id: @user.id), html: { method: :delete }) do |f| %>
+        <%= hidden_field_tag :follow_id, @user.id %>
+        <%= f.submit 'フォローを外す', class: 'btn btn-danger btn-block' %>
+      <% end %>
+    <% else %>
+      <%= form_for(current_user.relationships.build) do |f| %>
+        <%= hidden_field_tag :follow_id, @user.id %>
+        <%= f.submit 'フォローする', class: 'btn btn-primary btn-block' %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+<h2>フォロワー数</h2>
+<%= @user.followers.count %>
+<h2>フォロー数</h2>
+<%= @user.followings.count %>
+<br>
 <%= image_tag @user.image_url, size: "250x200", style: "border-radius: 50%;" %>
 <p>名前 : <%= @user.name %></p>
 <p>メールアドレス : <%= @user.email %></p>
