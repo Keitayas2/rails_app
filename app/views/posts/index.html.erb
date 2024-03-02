@@ -1,54 +1,115 @@
-<%= link_to "新規投稿ページへ", new_post_path %>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">新規投稿</button>
+
 <h3>投稿を検索</h3>
 <%= form_tag({controller:"posts",action:"index"}, method: :get) do %>
-    <%= text_field_tag :search %>
-    <%= submit_tag '検索する'  %>
+  <%= text_field_tag :search , nil ,placeholder: "何かお探しですか？" %>
+  <%= submit_tag '検索する' %>
 <% end %>
-<div class="posts-container">
-  <h3>人気の投稿</h3>
-  <% @rank_posts.each do |t| %>
-    <div class="post">
-        <%= image_tag t.image_url, size: "250x200" if t.image? %>
-        <%= t.body %>
-        <%= link_to t.user.name, user_path(t.user.id) %>
-        <%= t.updated_at %>
-        <% if user_signed_in? %>
-            <% if current_user.already_liked?(t) %>
-                <%= button_to post_like_path(id: t.id, post_id: t.id), method: :delete do %>
-                    <i class="fas fa-heart"></i><%= t.likes.count %>
-                <% end %>
-            <% else %>
-                <%= button_to post_likes_path(id: t.id, post_id: t.id), method: :post do %>
-                    <i class="far fa-heart"></i><%= t.likes.count %>
-                <% end %>
+
+<div class="container">
+    <h3>人気の投稿</h3>
+    <div class="row">
+        <% @rank_posts.each do |t| %>
+            <div class="col-md-4 mb-4"> 
+                <div class="card" style="width: 100%;">
+                    <% if t.image? %>
+                        <%= image_tag t.image_url, class: "card-img-top", alt: "Image" %>
+                    <% else %>
+                        <!-- 画像がない場合の代替テキストを表示 -->
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image cap"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">No Image</text></svg>
+                    <% end %>
+                    <div class="card-body">
+                        <h5 class="card-title"><%= link_to t.user.name, user_path(t.user.id) %></h5>
+                        <p class="card-text"><%= t.body %></p>
+                        <p class="card-text"><%= t.updated_at %></p>
+                        <% if user_signed_in? %>
+                            <% if current_user.already_liked?(t) %>
+                                <%= button_to post_like_path(id: t.id, post_id: t.id), method: :delete, class: "btn btn-danger btn-sm" do %>
+                                    <i class="fas fa-heart"></i> <%= t.likes.count %>
+                                <% end %>
+                            <% else %>
+                                <%= button_to post_likes_path(id: t.id, post_id: t.id), method: :post, class: "btn btn-primary btn-sm" do %>
+                                    <i class="far fa-heart"></i> <%= t.likes.count %>
+                                <% end %>
+                            <% end %>
+                            <% if current_user.id == t.user_id %>
+                                <%= link_to "編集する", edit_post_path(t.id), class: "btn btn-secondary btn-sm" %>
+                                <%= button_to "削除する", post_path(t.id), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger btn-sm" %>
+                            <% end %>
+                        <% end %>
+                        <%= link_to "詳細へ", post_path(t.id), class: "btn btn-primary btn-sm" %>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    </div>
+
+    <h3>自分の投稿</h3>
+    <div class="row">
+        <% @posts.each do |t| %>
+            <% if user_signed_in? && current_user.id == t.user_id %>
+                <div class="col-md-4 mb-4">
+                    <div class="card" style="width: 100%;">
+                        <% if t.image? %>
+                            <%= image_tag t.image_url, class: "card-img-top", alt: "Image" %>
+                        <% else %>
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image cap"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+                        <% end %>
+                        <div class="card-body">
+                            <h5 class="card-title"><%= link_to t.user.name, user_path(t.user.id) %></h5>
+                            <p class="card-text"><%= t.body %></p>
+                            <p class="card-text"><%= t.updated_at %></p>
+                            <% if user_signed_in? %>
+                                <% if current_user.already_liked?(t) %>
+                                    <%= button_to post_like_path(id: t.id, post_id: t.id), method: :delete, class: "btn btn-danger btn-sm" do %>
+                                        <i class="fas fa-heart"></i> <%= t.likes.count %>
+                                    <% end %>
+                                <% else %>
+                                    <%= button_to post_likes_path(id: t.id, post_id: t.id), method: :post, class: "btn btn-primary btn-sm" do %>
+                                        <i class="far fa-heart"></i> <%= t.likes.count %>
+                                    <% end %>
+                                <% end %>
+                                <% if current_user.id == t.user_id %>
+                                    <%= link_to "編集する", edit_post_path(t.id), class: "btn btn-secondary btn-sm" %>
+                                    <%= button_to "削除する", post_path(t.id), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger btn-sm" %>
+                                <% end %>
+                            <% end %>
+                            <%= link_to "詳細へ", post_path(t.id), class: "btn btn-primary btn-sm" %>
+                        </div>
+                    </div>
+                </div>
             <% end %>
         <% end %>
-        <%= link_to "詳細へ", post_path(t.id)%>
     </div>
-  <% end %>
-  <h3>自分の投稿</h3>
-  <% @posts.each do |t| %>
-    <div class="post">
-        <%= image_tag t.image_url, size: "250x200" if t.image? %>
-        <%= t.body %>
-        <%= link_to t.user.name, user_path(t.user.id) %>
-        <%= t.updated_at %>
-        <% if user_signed_in? %>
-            <% if current_user.already_liked?(t) %>
-                <%= button_to post_like_path(id: t.id, post_id: t.id), method: :delete do %>
-                    <i class="fas fa-heart"></i><%= t.likes.count %>
-                <% end %>
-            <% else %>
-                <%= button_to post_likes_path(id: t.id, post_id: t.id), method: :post do %>
-                    <i class="far fa-heart"></i><%= t.likes.count %>
-                <% end %>
-            <% end %>
-          <% if user_signed_in? && current_user.id == t.user_id %>
-            <%= link_to "編集する", edit_post_path(t.id) %>
-            <%= button_to "削除する", post_path(t.id), method: :delete %>
-          <% end %>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">新規投稿</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_for @post do |f| %>
+          <div class="field">
+            <%= f.label :body %>
+            <%= f.text_field :body, :size => 140, class: "form-control" %>
+          </div>
+          <div class="field">
+            <%= f.label :image %>
+            <%= f.file_field :image, class: "form-control" %>
+            <br>
+          </div>
+          <div class="modal-footer">
+            <%= f.submit "投稿する", class: "btn btn-primary" %>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+          </div>
         <% end %>
-        <%= link_to "詳細へ", post_path(t.id)%>
+      </div>
     </div>
-  <% end %>
+  </div>
 </div>

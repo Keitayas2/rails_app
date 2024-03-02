@@ -1,26 +1,58 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class="container">
+  <h2>GeekInstagramにログイン</h2>
+  <div class="rounded-image">
+    <%= image_tag "instagram-vector-social-media-icon-7-june-2021-bangkok-thailand_53876-136728.avif", alt: "Example Image" , size: "200px" , style: "border-radius: 50%;" %>
   </div>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="form-group">
+      <%= f.label :email, "メールアドレス" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+    </div>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+    <div class="form-group">
+      <%= f.label :password, "パスワード" %>
+      <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+      <div class="form-group">
+        <div class="form-check">
+          <%= f.check_box :remember_me, class: "form-check-input" %>
+          <%= f.label :remember_me, "次回から省略する", class: "form-check-label" %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.submit "ログイン", class: "btn btn-primary btn-block" %>
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
+  <div class="render" >
+    <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+      <%= link_to "新規登録", new_registration_path(resource_name) %>
+    <% end %>
+    ・
+    <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+      <%= link_to "パスワードをお忘れですか?", new_password_path(resource_name) %><br />
+    <% end %>
   </div>
-<% end %>
 
-<%= render "users/shared/links" %>
+</div>
+
+<style>
+  h2 {
+    text-align: center;
+  }
+  .render{
+    text-align: center;
+    dislpay: flex;
+    flex-direction: row;
+  }
+  .rounded-image {
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 50%;
+  }
+</style>
