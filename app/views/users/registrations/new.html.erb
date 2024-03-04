@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>新規登録</h2>
+  <h4>新規登録</h4>
 
     <div class="rounded-image">
       <%= image_tag "instagram-vector-social-media-icon-7-june-2021-bangkok-thailand_53876-136728.avif", alt: "Example Image" , size: "200px" , style: "border-radius: 50%;" %>
@@ -31,8 +31,8 @@
       <%= f.password_field :password_confirmation, class: "form-control", required: true, autocomplete: "new-password" %>
     </div>
 
-    <div class="actions">
-      <%= f.submit "新規登録", class: "btn btn-primary rounded-pill" %>
+    <div class="form-group">
+      <%= f.submit "新規登録", class: "btn btn-primary  btn-block rounded-pill" %>
     </div>
   <% end %>
 
@@ -40,7 +40,7 @@
 </div>
 
 <style>
-  h2 {
+  h4 {
     text-align: center;
   }
   .render{
