@@ -1,12 +1,12 @@
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">新規投稿</button>
-
-<h3>投稿を検索</h3>
-<%= form_tag({controller:"posts",action:"index"}, method: :get) do %>
-  <%= text_field_tag :search , nil ,placeholder: "何かお探しですか？" %>
-  <%= submit_tag '検索する' %>
-<% end %>
-
 <div class="container">
+    <% if user_signed_in? %>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">新規投稿</button>
+    <% end %>
+    <h3>投稿を検索</h3>
+    <%= form_tag({controller:"posts",action:"index"}, method: :get) do %>
+        <%= text_field_tag :search , nil ,placeholder: "何かお探しですか？", class: "col-auto"%>
+        <%= submit_tag '検索する', class: "btn btn-primary rounded-pill" %>
+    <% end %>
     <h3>人気の投稿</h3>
     <div class="row">
         <% @rank_posts.each do |t| %>
