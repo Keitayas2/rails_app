@@ -12,6 +12,7 @@ class PostsController < ApplicationController
     @rank_posts = @rank_posts.all.sort {|a,b| b.liked_users.count <=> a.liked_users.count}
   end
 
+
   def new
     @post = Post.new
   end

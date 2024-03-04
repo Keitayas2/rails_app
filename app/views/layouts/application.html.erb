@@ -14,16 +14,18 @@
 
   <body>
     <header>
-      <h1><%= link_to "GeekInstagram", root_path, class: "custom-link" %></h1>
-      <div class="header-list">
-        <ul>
-          <% if user_signed_in? %>
-            <li><%= button_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
-          <% else %>
-            <li><%= link_to "新規登録", new_user_registration_path %></li>
-            <li><%= link_to "ログイン", new_user_session_path %></li>
-          <% end %>
-        </ul>
+      <div class="container">
+        <h1><%= link_to "GeekInstagram", root_path, class: "custom-link" %></h1>
+        <div class="header-list">
+          <ul>
+            <% if user_signed_in? %>
+              <li><%= button_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
+            <% else %>
+              <li><%= link_to "新規登録", new_user_registration_path %></li>
+              <li><%= link_to "ログイン", new_user_session_path %></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </header>
     <div class="container">
