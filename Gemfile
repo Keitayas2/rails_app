@@ -63,3 +63,5 @@ gem 'cloudinary'
 gem 'dotenv-rails'
 
 gem 'kaminari'
+
+gem 'dotenv-rails'
